@@ -18,10 +18,11 @@ public class Transaction implements View {
 
         System.out.print("1. Withdraw\n" +
                 "2. Fund Transfer\n" +
-                "3. Your transaction history" +
+                "3. View transaction history \n" +
                 "4. Exit\n" +
                 "Please choose option[3]:");
         String option = in.nextLine();
+
         switch (option) {
             case "1":
                 dispatcher.dispatch("WITHDRAW");
