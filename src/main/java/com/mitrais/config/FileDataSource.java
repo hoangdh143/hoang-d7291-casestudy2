@@ -6,9 +6,9 @@ import com.mitrais.validator.AccountValidationContext;
 import com.mitrais.validator.AccountValidationStrategy;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileDataSource implements DataSource<Account> {
     private static final String FILE_URL = "Accounts.csv";
@@ -19,7 +19,7 @@ public class FileDataSource implements DataSource<Account> {
     @Override
     public Map<String, Account> loadData() throws DataSourceException {
 
-        Map<String, Account> map;
+        Map<String, Account> map = new HashMap<>();
         File inputF = new File(FILE_URL);
 
         context = new AccountValidationContext();
@@ -29,14 +29,14 @@ public class FileDataSource implements DataSource<Account> {
         try {
             InputStream inputStream = new FileInputStream(inputF);
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-            map = br.lines().map(this::mapToAccount).collect(Collectors.toMap(Account::getAccountNumber, Function.identity()));
+            Stream<Account> accountStream = br.lines().map(this::mapToAccount);
+            streamToMapWithValidation(accountStream, map);
 
-            if (map.size() < MAX_ROW) throw new DataSourceException("File should not have less than "+ MAX_ROW +" rows");
+            if (map.size() < MAX_ROW)
+                throw new DataSourceException("File should not have less than " + MAX_ROW + " rows");
 
         } catch (FileNotFoundException e) {
             throw new DataSourceException("File not found");
-        } catch (IllegalStateException e) {
-            throw new DataSourceException("Duplicated key values: " + e.getMessage());
         } catch (NumberFormatException e) {
             throw new DataSourceException("Could not read number from file");
         } catch (RuntimeException e) {
@@ -44,6 +44,17 @@ public class FileDataSource implements DataSource<Account> {
         }
 
         return map;
+    }
+
+    private void streamToMapWithValidation(Stream<Account> accountStream, Map<String, Account> map) {
+        accountStream.forEach(x -> {
+            Account accountExists = map.get(x.getAccountNumber());
+            if (accountExists != null) {
+                if (accountExists.equals(x)) throw new RuntimeException("There can't be duplicated records " + x);
+                throw new RuntimeException("There can't be 2 different accounts with the same Account Number " + x.getAccountNumber());
+            }
+            map.put(x.getAccountNumber(), x);
+        });
     }
 
     private Account mapToAccount(String line) throws RuntimeException {
@@ -57,7 +68,8 @@ public class FileDataSource implements DataSource<Account> {
         account.setAccountNumber(p[3].trim());
 
         String errorCode = context.execute(account);
-        if (errorCode != null) throw new RuntimeException("Account number " + account.getAccountNumber() + " has error: " + errorCode);
+        if (errorCode != null)
+            throw new RuntimeException("Account number " + account.getAccountNumber() + " has error: " + errorCode);
 
         return account;
     }

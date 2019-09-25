@@ -2,6 +2,7 @@ package com.mitrais.repository;
 
 import com.mitrais.model.TransactionHistory;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -22,7 +23,9 @@ public class TransactionHistoryRepositoryImpl implements TransactionHistoryRepos
     @Override
     public List<TransactionHistory> findByAccountNumber(String accountNumber, int page, int limit) {
         List<TransactionHistory> transactionHistoryList = transactionHistoryMap.values().stream()
-                .filter(transactionHistory -> transactionHistory.getAccount().getAccountNumber().equals(accountNumber)).skip(page*limit).limit(limit).collect(Collectors.toList());
+                .filter(transactionHistory -> transactionHistory.getAccount().getAccountNumber().equals(accountNumber))
+                .sorted(Comparator.comparing(TransactionHistory::getCreatedAt).reversed())
+                .skip(page*limit).limit(limit).collect(Collectors.toList());
         return transactionHistoryList;
     }
 }
