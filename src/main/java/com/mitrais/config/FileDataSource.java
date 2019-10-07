@@ -8,17 +8,17 @@ import com.mitrais.validator.AccountValidationStrategy;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class FileDataSource implements DataSource<Account> {
-    private File file;
+    private String fileUrl;
     private static final int MAX_ROW = 20;
 
     private AccountValidationContext context;
 
-    public FileDataSource(String fileUrl) throws FileNotFoundException {
-        file = new File(fileUrl);
-        if (!file.exists()) throw new FileNotFoundException();
+    public FileDataSource(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
     @Override
@@ -31,9 +31,10 @@ public class FileDataSource implements DataSource<Account> {
         context.addStrategy(AccountValidationStrategy.PIN);
 
         try {
+            File file = new File(fileUrl);
             InputStream inputStream = new FileInputStream(file);
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-            Stream<Account> accountStream = br.lines().map(this::mapToAccount);
+            Stream<Account> accountStream = br.lines().map(this::mapToAccount).filter(Objects::nonNull);
             streamToMapWithValidation(accountStream, map);
 
             if (map.size() < MAX_ROW)
@@ -41,11 +42,9 @@ public class FileDataSource implements DataSource<Account> {
 
         } catch (FileNotFoundException e) {
             throw new DataSourceException("File not found");
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
         }
 
-        System.out.println("File loaded!");
+        System.out.println("File loaded! \n");
         return map;
     }
 
@@ -64,9 +63,12 @@ public class FileDataSource implements DataSource<Account> {
         });
     }
 
-    private Account mapToAccount(String line) throws RuntimeException {
+    private Account mapToAccount(String line) {
         String[] p = line.split(",");
-        if (p.length != 4) throw new RuntimeException("Could not read Account info at line: " + line);
+        if (p.length != 4) {
+            System.out.println("Could not read Account info at line: " + line);
+            return null;
+        }
 
         Account account = new Account();
         account.setName(p[0].trim());
@@ -76,12 +78,15 @@ public class FileDataSource implements DataSource<Account> {
         try {
             account.setBalance(Integer.parseInt(p[2].trim()));
         } catch (NumberFormatException e) {
-            throw new RuntimeException("Number format error at account number: " + account.getAccountNumber());
+            System.out.println("Number format error at account number: " + account.getAccountNumber());
+            return null;
         }
 
         String errorCode = context.execute(account);
-        if (errorCode != null)
-            throw new RuntimeException("Account number " + account.getAccountNumber() + " has error: " + errorCode);
+        if (errorCode != null) {
+            System.out.println("Account number " + account.getAccountNumber() + " has error: " + errorCode);
+            return null;
+        }
 
         return account;
     }

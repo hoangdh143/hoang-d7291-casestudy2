@@ -20,13 +20,9 @@ public class AccountRepositoryImpl implements AccountRepository {
         save(new Account("Jane Doe","932012", 30, "112244"));
     }
 
-    public AccountRepositoryImpl(DataSource<Account> dataSource, TransactionHistoryRepository transactionHistoryRepository) {
-        try {
+    public AccountRepositoryImpl(DataSource<Account> dataSource, TransactionHistoryRepository transactionHistoryRepository) throws DataSourceException {
             accountList = dataSource.loadData();
             this.transactionHistoryRepository = transactionHistoryRepository;
-        } catch (DataSourceException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     @Override
