@@ -13,7 +13,8 @@ public enum ViewName {
     FUNDTRANSFER2(new FundTransfer2()),
     FUNDTRANSFER3(new FundTransfer3()),
     FUNDTRANSFER4(new FundTransfer4()),
-    TRANSSUMMARY(new TransSummary());
+    TRANSSUMMARY(new TransSummary()),
+    FILELOADER(new FileLoader());
 
     private View view;
 
