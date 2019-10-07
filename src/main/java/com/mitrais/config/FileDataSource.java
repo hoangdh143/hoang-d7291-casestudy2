@@ -78,7 +78,7 @@ public class FileDataSource implements DataSource<Account> {
         try {
             account.setBalance(Integer.parseInt(p[2].trim()));
         } catch (NumberFormatException e) {
-            System.out.println("Number format error at account number: " + account.getAccountNumber());
+            System.out.println("Account number " + account.getAccountNumber() + " has error: Balance should only contains numbers");
             return null;
         }
 
