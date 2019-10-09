@@ -4,7 +4,7 @@ import lombok.Data;
 import com.mitrais.model.Account;
 import com.mitrais.model.TransactionSummary;
 import com.mitrais.repository.AccountRepoFactory;
-import com.mitrais.repository.AccountRepository;
+import com.mitrais.repository.AccountRepositoryDeprecated;
 import com.mitrais.viewhandler.Dispatcher;
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 @Data
 public class Withdraw implements View {
     private Dispatcher dispatcher;
-    private AccountRepository accountRepository = AccountRepoFactory.getAccountRepository();
+    private AccountRepositoryDeprecated accountRepositoryDeprecated = AccountRepoFactory.getAccountRepositoryDeprecated();
 
     public Withdraw() {
     }
@@ -32,17 +32,17 @@ public class Withdraw implements View {
             TransactionSummary transactionSummary;
             switch (option) {
                 case "1":
-                    transactionSummary = accountRepository.deduct(account, 10);
+                    transactionSummary = accountRepositoryDeprecated.deduct(account, 10);
                     dispatcher.setTransactionSummary(transactionSummary);
                     dispatcher.dispatch("SUMMARY");
                     break;
                 case "2":
-                    transactionSummary = accountRepository.deduct(account, 50);
+                    transactionSummary = accountRepositoryDeprecated.deduct(account, 50);
                     dispatcher.setTransactionSummary(transactionSummary);
                     dispatcher.dispatch("SUMMARY");
                     break;
                 case "3":
-                    transactionSummary = accountRepository.deduct(account, 100);
+                    transactionSummary = accountRepositoryDeprecated.deduct(account, 100);
                     dispatcher.setTransactionSummary(transactionSummary);
                     dispatcher.dispatch("SUMMARY");
                     break;

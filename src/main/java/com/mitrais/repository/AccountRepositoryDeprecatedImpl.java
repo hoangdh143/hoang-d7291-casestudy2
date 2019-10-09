@@ -11,16 +11,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AccountRepositoryImpl implements AccountRepository {
+public class AccountRepositoryDeprecatedImpl implements AccountRepositoryDeprecated {
     private static Map<String, Account> accountList = new HashMap<>();
     private TransactionHistoryRepository transactionHistoryRepository;
 
-    public AccountRepositoryImpl() {
+    public AccountRepositoryDeprecatedImpl() {
         save(new Account("John Doe", "012108", 100, "112233"));
         save(new Account("Jane Doe","932012", 30, "112244"));
     }
 
-    public AccountRepositoryImpl(DataSource<Account> dataSource, TransactionHistoryRepository transactionHistoryRepository) throws DataSourceException {
+    public AccountRepositoryDeprecatedImpl(DataSource<Account> dataSource, TransactionHistoryRepository transactionHistoryRepository) throws DataSourceException {
             accountList = dataSource.loadData();
             this.transactionHistoryRepository = transactionHistoryRepository;
     }

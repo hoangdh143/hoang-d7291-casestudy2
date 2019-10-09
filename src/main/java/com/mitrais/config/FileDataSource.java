@@ -4,11 +4,10 @@ import com.mitrais.exception.DataSourceException;
 import com.mitrais.model.Account;
 import com.mitrais.validator.AccountValidationContext;
 import com.mitrais.validator.AccountValidationStrategy;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class FileDataSource implements DataSource<Account> {
@@ -46,6 +45,11 @@ public class FileDataSource implements DataSource<Account> {
 
         System.out.println("File loaded! \n");
         return map;
+    }
+
+    @Override
+    public void saveToRepo(JpaRepository<Account, String> accountRepository) throws DataSourceException{
+        accountRepository.saveAll(loadData().values());
     }
 
     private void streamToMapWithValidation(Stream<Account> accountStream, Map<String, Account> map) {

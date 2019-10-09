@@ -3,7 +3,7 @@ package com.mitrais.view;
 import lombok.Data;
 import com.mitrais.model.Account;
 import com.mitrais.repository.AccountRepoFactory;
-import com.mitrais.repository.AccountRepository;
+import com.mitrais.repository.AccountRepositoryDeprecated;
 import com.mitrais.validator.AccountValidationContext;
 import com.mitrais.validator.AccountValidationStrategy;
 import com.mitrais.viewhandler.Dispatcher;
@@ -13,7 +13,7 @@ import java.util.Scanner;
 @Data
 public class Welcome implements View {
     private Dispatcher dispatcher;
-    private AccountRepository accountRepository = AccountRepoFactory.getAccountRepository();
+    private AccountRepositoryDeprecated accountRepositoryDeprecated = AccountRepoFactory.getAccountRepositoryDeprecated();
 
     public Welcome() {
     }
@@ -37,7 +37,7 @@ public class Welcome implements View {
         context.addStrategy(AccountValidationStrategy.PIN);
         validate(account, context, this);
 
-        Account accountDb = accountRepository.get(account.getAccountNumber(), account.getPin());
+        Account accountDb = accountRepositoryDeprecated.get(account.getAccountNumber(), account.getPin());
 
         if (accountDb == null) {
             System.out.println("Invalid Account Number/PIN");

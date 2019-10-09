@@ -1,12 +1,12 @@
 package com.mitrais.repository;
 
 public class AccountRepoFactory {
-    private static AccountRepository accountRepository;
-    public static void setAccountRepository(AccountRepository accountRepository) {
-        AccountRepoFactory.accountRepository = accountRepository;
+    private static AccountRepositoryDeprecated accountRepositoryDeprecated;
+    public static void setAccountRepositoryDeprecated(AccountRepositoryDeprecated accountRepositoryDeprecated) {
+        AccountRepoFactory.accountRepositoryDeprecated = accountRepositoryDeprecated;
     }
 
-    public static AccountRepository getAccountRepository() {
-        return AccountRepoFactory.accountRepository;
+    public static AccountRepositoryDeprecated getAccountRepositoryDeprecated() {
+        return AccountRepoFactory.accountRepositoryDeprecated;
     }
 }

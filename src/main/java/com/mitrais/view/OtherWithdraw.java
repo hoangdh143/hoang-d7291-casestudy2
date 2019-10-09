@@ -4,7 +4,7 @@ import lombok.Data;
 import com.mitrais.model.Account;
 import com.mitrais.model.TransactionSummary;
 import com.mitrais.repository.AccountRepoFactory;
-import com.mitrais.repository.AccountRepository;
+import com.mitrais.repository.AccountRepositoryDeprecated;
 import com.mitrais.viewhandler.Dispatcher;
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ import java.util.Scanner;
 @Data
 public class OtherWithdraw implements View {
     private Dispatcher dispatcher;
-    private AccountRepository accountRepository = AccountRepoFactory.getAccountRepository();
+    private AccountRepositoryDeprecated accountRepositoryDeprecated = AccountRepoFactory.getAccountRepositoryDeprecated();
 
     @Override
     public void display() {
@@ -24,7 +24,7 @@ public class OtherWithdraw implements View {
         try {
             int amount = Integer.parseInt(input);
             TransactionSummary transactionSummary;
-            transactionSummary = accountRepository.deduct(account, amount);
+            transactionSummary = accountRepositoryDeprecated.deduct(account, amount);
             dispatcher.setTransactionSummary(transactionSummary);
             dispatcher.dispatch("SUMMARY");
         } catch (NumberFormatException e) {

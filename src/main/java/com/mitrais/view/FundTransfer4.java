@@ -34,7 +34,7 @@ public class FundTransfer4 implements View {
         switch (confirm) {
             case "1":
                 try {
-                TransferSummary transferSummary = AccountRepoFactory.getAccountRepository().transfer(
+                TransferSummary transferSummary = AccountRepoFactory.getAccountRepositoryDeprecated().transfer(
                         transferConfirmation.getAccount().getAccountNumber(),
                         transferConfirmation.getDestinationAccount(),
                         transferConfirmation.getTransferAmount(),

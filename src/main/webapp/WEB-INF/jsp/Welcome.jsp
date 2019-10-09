@@ -8,8 +8,8 @@
 <form action="${pageContext.request.contextPath}/login" method="post">
     <table style="width: 50%">
         <tr>
-            <td>Username</td>
-            <td><input type="text" name="username"></td>
+            <td>Account number</td>
+            <td><input type="text" name="accountNumber"></td>
         </tr>
         <tr>
             <td>PIN</td>

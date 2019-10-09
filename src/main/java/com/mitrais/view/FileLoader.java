@@ -26,8 +26,8 @@ public class FileLoader implements View {
         try {
             FileDataSource fileDataSource = new FileDataSource(filePath);
             TransactionHistoryRepoFactory.setTransactionHistoryRepository(new TransactionHistoryRepositoryImpl());
-            AccountRepository accountRepository = new AccountRepositoryImpl(fileDataSource, TransactionHistoryRepoFactory.getTransactionHistoryRepository());
-            AccountRepoFactory.setAccountRepository(accountRepository);
+            AccountRepositoryDeprecated accountRepositoryDeprecated = new AccountRepositoryDeprecatedImpl(fileDataSource, TransactionHistoryRepoFactory.getTransactionHistoryRepository());
+            AccountRepoFactory.setAccountRepositoryDeprecated(accountRepositoryDeprecated);
 
         } catch (DataSourceException e) {
             System.out.println(e.getMessage());

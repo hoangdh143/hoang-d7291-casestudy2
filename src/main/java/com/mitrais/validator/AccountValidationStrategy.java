@@ -1,7 +1,6 @@
 package com.mitrais.validator;
 
 import com.mitrais.model.Account;
-import com.mitrais.repository.AccountRepository;
 
 import java.util.Optional;
 

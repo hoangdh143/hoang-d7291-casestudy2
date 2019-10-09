@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
     @PostMapping
     public String login(HttpServletRequest req, HttpServletResponse resp) {
-        String username = req.getParameter("username");
+        String username = req.getParameter("accountNumber");
         String pin = req.getParameter("pin");
 
         if (username.isEmpty() || pin.isEmpty()) {
