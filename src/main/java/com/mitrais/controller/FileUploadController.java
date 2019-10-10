@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,20 +22,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Controller
-@RequestMapping("/file_loader")
-public class FileLoaderController {
+@RequestMapping("/file_upload")
+public class FileUploadController {
 
     private static final String TEMP_DIR = "tmp";
     private AccountRepository accountRepository;
 
     @Autowired
-    public FileLoaderController(AccountRepository accountRepository) {
+    public FileUploadController(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
     @GetMapping
     public String uploadPage(ModelMap modelMap) {
-        return "FileLoader";
+        return "FileUpload";
     }
 
     @PostMapping
@@ -49,7 +47,7 @@ public class FileLoaderController {
             dataSource.saveToRepo(accountRepository);
         } catch (IOException | DataSourceException e) {
             modelMap.addAttribute("error", e.getMessage());
-            return "FileLoader";
+            return "FileUpload";
         }
         modelMap.addAttribute("file", file);
         return "Welcome";

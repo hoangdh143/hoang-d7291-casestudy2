@@ -4,7 +4,12 @@
 </head>
 
 <body>
-    <div><%="hello for jsp :"%> ${this_time}</div>
+<form action="/transaction">
+    <input type="radio" name="transaction" value="Withdraw">
+    <input type="radio" name="transaction" value="Transfer">
+    <input type="radio" name="transaction" value="View History">
+    <input type="submit" value="Submit">
+</form>
 </body>
 
 </html>

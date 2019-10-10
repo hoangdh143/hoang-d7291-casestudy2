@@ -6,7 +6,7 @@
 
 <body>
 <form action="${pageContext.request.contextPath}/login" method="post">
-    <table style="width: 50%">
+    <table>
         <tr>
             <td>Account number</td>
             <td><input type="text" name="accountNumber"></td>
