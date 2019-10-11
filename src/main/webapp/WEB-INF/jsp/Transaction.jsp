@@ -1,15 +1,28 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <!doctype html>
 <html lang="en">
 <head>
+    <jsp:include page="Header.jsp"></jsp:include>
+
+    <title>Transaction</title>
+
+    <link href="${contextPath}/static/css/transaction.css" rel="stylesheet">
+
 </head>
 
-<body>
-<form action="/transaction">
-    <input type="radio" name="transaction" value="Withdraw">
-    <input type="radio" name="transaction" value="Transfer">
-    <input type="radio" name="transaction" value="View History">
-    <input type="submit" value="Submit">
-</form>
+<body class="text-center">
+<div class="select-option">
+<h2>Welcome ${userName}</h2>
+<p>Please pick an option</p>
+<div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/withdraw" role="button">Withdraw</a></div>
+<div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/transfer" role="button">Transfer</a></div>
+<div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/transaction_history" role="button">View Transaction History</a></div>
+</div>
 </body>
 
 </html>

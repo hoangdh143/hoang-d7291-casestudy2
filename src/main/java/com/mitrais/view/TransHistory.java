@@ -3,7 +3,7 @@ package com.mitrais.view;
 import com.mitrais.model.Account;
 import com.mitrais.model.TransactionHistory;
 import com.mitrais.repository.TransactionHistoryRepoFactory;
-import com.mitrais.repository.TransactionHistoryRepository;
+import com.mitrais.repository.TransactionHistoryRepositoryDeprecated;
 import com.mitrais.viewhandler.Dispatcher;
 import lombok.Data;
 
@@ -15,7 +15,7 @@ public class TransHistory implements View {
     private static final int PAGE = 0;
     private static final int LIMIT = 10;
     private Dispatcher dispatcher;
-    private TransactionHistoryRepository transactionHistoryRepository = TransactionHistoryRepoFactory.getTransactionHistoryRepository();
+    private TransactionHistoryRepositoryDeprecated transactionHistoryRepositoryDeprecated = TransactionHistoryRepoFactory.getTransactionHistoryRepositoryDeprecated();
 
     public TransHistory() {
     }
@@ -25,7 +25,7 @@ public class TransHistory implements View {
         Account account = dispatcher.getAccount();
         Scanner in = new Scanner(System.in);
 
-        String transactionHistory = transactionHistoryRepository.findByAccountNumber(account.getAccountNumber(), PAGE, LIMIT).stream()
+        String transactionHistory = transactionHistoryRepositoryDeprecated.findByAccountNumber(account.getAccountNumber(), PAGE, LIMIT).stream()
                 .map(TransactionHistory::toString).collect(Collectors.joining("\n"));
         if (transactionHistory.isEmpty()) transactionHistory = "Empty";
 

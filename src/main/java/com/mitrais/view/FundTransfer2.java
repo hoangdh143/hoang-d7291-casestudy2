@@ -24,7 +24,7 @@ public class FundTransfer2 implements View {
         if (input.equals("")) {
             dispatcher.dispatch("TRANSACTION");
         } else {
-            transferConfirmation.setTransferAmount(input);
+//            transferConfirmation.setTransferAmount(input);
             dispatcher.setTransferConfirmation(transferConfirmation);
             dispatcher.dispatch("FUNDTRANSFER3");
         };

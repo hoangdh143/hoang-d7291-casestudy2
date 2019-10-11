@@ -1,0 +1,11 @@
+.select-option {
+    width: 100%;
+    display: block;
+}
+
+.form-group {
+    width: 20%;
+    max-width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -34,13 +34,13 @@ public class FundTransfer4 implements View {
         switch (confirm) {
             case "1":
                 try {
-                TransferSummary transferSummary = AccountRepoFactory.getAccountRepositoryDeprecated().transfer(
-                        transferConfirmation.getAccount().getAccountNumber(),
-                        transferConfirmation.getDestinationAccount(),
-                        transferConfirmation.getTransferAmount(),
-                        transferConfirmation.getReferenceNumber()
-                );
-                dispatcher.setTransferSummary(transferSummary);
+//                TransferSummary transferSummary = AccountRepoFactory.getAccountRepositoryDeprecated().transfer(
+//                        transferConfirmation.getAccount().getAccountNumber(),
+//                        transferConfirmation.getDestinationAccount(),
+//                        transferConfirmation.getTransferAmount(),
+//                        transferConfirmation.getReferenceNumber()
+//                );
+//                dispatcher.setTransferSummary(transferSummary);
                 dispatcher.dispatch("TRANSSUMMARY");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());

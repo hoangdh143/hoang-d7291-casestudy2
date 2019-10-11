@@ -9,15 +9,15 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class TransactionHistoryRepositoryImpl implements TransactionHistoryRepository {
+public class TransactionHistoryRepositoryDeprecatedImpl implements TransactionHistoryRepositoryDeprecated {
     private static Map<String, TransactionHistory> transactionHistoryMap = new ConcurrentHashMap<>();
 
     @Override
     public void save(TransactionHistory transactionHistory) {
-        if (transactionHistory.getTransactionCode() == null) {
-            transactionHistory.setTransactionCode(UUID.randomUUID().toString());
-        }
-        transactionHistoryMap.put(transactionHistory.getTransactionCode(), transactionHistory);
+//        if (transactionHistory.getTransactionCode() == null) {
+//            transactionHistory.setTransactionCode(UUID.randomUUID().toString());
+//        }
+//        transactionHistoryMap.put(transactionHistory.getTransactionCode(), transactionHistory);
     }
 
     @Override

@@ -1,12 +1,12 @@
 package com.mitrais.repository;
 
 public class TransactionHistoryRepoFactory {
-    private static TransactionHistoryRepository TransactionHistoryRepository;
-    public static void setTransactionHistoryRepository(TransactionHistoryRepository TransactionHistoryRepository) {
-        TransactionHistoryRepoFactory.TransactionHistoryRepository = TransactionHistoryRepository;
+    private static TransactionHistoryRepositoryDeprecated TransactionHistoryRepositoryDeprecated;
+    public static void setTransactionHistoryRepositoryDeprecated(TransactionHistoryRepositoryDeprecated TransactionHistoryRepositoryDeprecated) {
+        TransactionHistoryRepoFactory.TransactionHistoryRepositoryDeprecated = TransactionHistoryRepositoryDeprecated;
     }
 
-    public static TransactionHistoryRepository getTransactionHistoryRepository() {
-        return TransactionHistoryRepoFactory.TransactionHistoryRepository;
+    public static TransactionHistoryRepositoryDeprecated getTransactionHistoryRepositoryDeprecated() {
+        return TransactionHistoryRepoFactory.TransactionHistoryRepositoryDeprecated;
     }
 }

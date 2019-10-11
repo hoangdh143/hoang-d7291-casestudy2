@@ -50,7 +50,7 @@ public class FileUploadController {
             return "FileUpload";
         }
         modelMap.addAttribute("file", file);
-        return "Welcome";
+        return "Login";
     }
 
     private String write(MultipartFile file, String fileType) throws IOException {
