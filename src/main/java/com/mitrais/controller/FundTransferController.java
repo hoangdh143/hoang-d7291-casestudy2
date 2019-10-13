@@ -4,9 +4,16 @@ import com.mitrais.model.Account;
 import com.mitrais.model.TransferConfirmation;
 import com.mitrais.model.TransferSummary;
 import com.mitrais.service.AccountService;
+import com.mitrais.validator.AccountNumberValidator;
+import com.mitrais.validator.TransferAmountValidator;
+import com.sun.istack.NotNull;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/transfer")
@@ -32,8 +41,15 @@ public class FundTransferController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String processTransfer(Model model, @ModelAttribute("destinationAccount") String destinationAccount, @ModelAttribute("amount") Integer amount, HttpSession httpSession, RedirectAttributes redirectAttributes)
+    public String processTransfer(Model model, @ModelAttribute("destinationAccount") String destinationAccount, @ModelAttribute("amount") Integer amount,
+                                  BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes)
     {
+        new AccountNumberValidator().validate(destinationAccount, bindingResult);
+        new TransferAmountValidator().validate(amount, bindingResult);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", Objects.requireNonNull(bindingResult.getGlobalError()).getDefaultMessage());
+            return "FundTransfer";
+        }
         Account account = (Account) httpSession.getAttribute("account");
         TransferConfirmation transferConfirmation = new TransferConfirmation(account, destinationAccount, amount, createRandomString());
         redirectAttributes.addFlashAttribute("transferConfirmation", transferConfirmation);

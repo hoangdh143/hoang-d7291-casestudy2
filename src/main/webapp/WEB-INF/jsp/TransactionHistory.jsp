@@ -1,6 +1,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -19,6 +21,13 @@
 <body class="text-center">
 <div class="container">
     <h2>Welcome ${userName}</h2>
+    <form action="${pageContext.request.contextPath}/transaction_history" method="post">
+        <label for="fromDate">From Date</label>
+        <input type="date" id="fromDate" name="fromDate">
+        <label for="toDate">To Date</label>
+        <input type="date" id="toDate" name="toDate">
+        <input type="submit" value="Filter">
+    </form>
     <table class="table table-bordered history-table">
         <tr>
             <th scope="col">Transaction Code</th>
@@ -35,7 +44,9 @@
                 <td>${trans.debit}</td>
                 <td>${trans.credit}</td>
                 <td>${trans.balance}</td>
-                <td><fmt:formatDate value="${trans.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+<%--                <td><fmt:formatDate value="${trans.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>--%>
+            <td><javatime:format value="${trans.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>
+            </td>
             </tr>
         </c:forEach>
     </table>
