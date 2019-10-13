@@ -1,5 +1,7 @@
 package com.mitrais.service.impl;
 
+import com.mitrais.config.ExternalDataSource;
+import com.mitrais.config.FileExternalDataSource;
 import com.mitrais.exception.*;
 import com.mitrais.model.Account;
 import com.mitrais.model.TransactionHistory;
@@ -14,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +27,12 @@ public class AccountServiceImpl implements AccountService {
     public AccountServiceImpl(AccountRepository accountRepository, TransactionHistoryRepository transactionHistoryRepository) {
         this.accountRepository = accountRepository;
         this.transactionHistoryRepository = transactionHistoryRepository;
+    }
+
+    @Override
+    public void importFromFile(String filePath) throws DataSourceException {
+        ExternalDataSource<Account> externalDataSource = new FileExternalDataSource(filePath);
+        externalDataSource.saveToRepo(accountRepository);
     }
 
     @Override
@@ -49,25 +56,25 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public TransactionSummary deduct(Account account, int i) throws BalanceInsufficientException, MaximumAmountException, InvalidAmountException, InvalidAccountException {
-        if (i > 1000) throw new MaximumAmountException("Maximum amount to withdraw is $1000");
-        if (i % 10 != 0) throw new InvalidAmountException("Invalid ammount");
-        Account accoundDb = accountRepository.findByAccountNumber(account.getAccountNumber());
+    public TransactionSummary deduct(String accountNumber, int amount) throws BalanceInsufficientException, MaximumAmountException, InvalidAmountException, InvalidAccountException {
+        if (amount > 1000) throw new MaximumAmountException("Maximum amount to withdraw is $1000");
+        if (amount % 10 != 0) throw new InvalidAmountException("Invalid ammount");
+        Account accoundDb = accountRepository.findByAccountNumber(accountNumber);
         if (accoundDb != null) {
-            if (i > accoundDb.getBalance()) throw new BalanceInsufficientException("Insufficient balance $" + i);
-            accoundDb.setBalance(accoundDb.getBalance() - i);
+            if (amount > accoundDb.getBalance()) throw new BalanceInsufficientException("Insufficient balance $" + amount);
+            accoundDb.setBalance(accoundDb.getBalance() - amount);
             accountRepository.save(accoundDb);
 
-            transactionHistoryRepository.save(new TransactionHistory(accoundDb, "Withdraw transaction", i, 0, accoundDb.getBalance()));
+            transactionHistoryRepository.save(new TransactionHistory(accoundDb, "Withdraw transaction", amount, 0, accoundDb.getBalance()));
 
-            return new TransactionSummary(new Date(), i, accoundDb.getBalance());
+            return new TransactionSummary(new Date(), amount, accoundDb.getBalance());
         } else {
             throw new InvalidAccountException("Invalid account");
         }
     }
 
     @Override
-    public TransferSummary transfer(String accountNumber, String destinationAccount, String transferAmount, String refNumber) throws InvalidAccountException, MaximumAmountException, MinimumAmountException, InvalidAmountException, BalanceInsufficientException, InvalidRefNumberException {
+    public TransferSummary transfer(String accountNumber, String destinationAccount, Integer amount, String refNumber) throws InvalidAccountException, MaximumAmountException, MinimumAmountException, InvalidAmountException, BalanceInsufficientException, InvalidRefNumberException {
         try {Integer.parseInt(accountNumber);} catch (NumberFormatException e) {throw new InvalidAccountException("Invalid account");}
         try {Integer.parseInt(destinationAccount);} catch (NumberFormatException e) {throw new InvalidAccountException("Invalid account");}
         if (accountNumber.equals(destinationAccount)) throw new InvalidAccountException("Invalid account");
@@ -78,8 +85,6 @@ public class AccountServiceImpl implements AccountService {
         if (sourceAccount == null) throw new InvalidAccountException("Invalid account");
         if (destAccount == null) throw new InvalidAccountException("Invalid account");
 
-        int amount;
-        try {amount = Integer.parseInt(transferAmount);} catch (NumberFormatException e) {throw new InvalidAccountException("Invalid amount");}
         if (amount > 1000) throw new MaximumAmountException("Maximum amount to withdraw is $1000");
         if (amount < 0) throw new MinimumAmountException("Minimum amount to withdraw is $1");
         if (amount > sourceAccount.getBalance()) throw new BalanceInsufficientException("Insufficient balance $" + amount);

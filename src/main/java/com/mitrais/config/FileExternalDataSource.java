@@ -10,13 +10,13 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class FileDataSource implements DataSource<Account> {
+public class FileExternalDataSource implements ExternalDataSource<Account> {
     private String fileUrl;
     private static final int MAX_ROW = 20;
 
     private AccountValidationContext context;
 
-    public FileDataSource(String fileUrl) {
+    public FileExternalDataSource(String fileUrl) {
         this.fileUrl = fileUrl;
     }
 

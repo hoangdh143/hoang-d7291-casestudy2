@@ -1,10 +1,7 @@
 package com.mitrais.controller;
 
-import com.mitrais.config.DataSource;
-import com.mitrais.config.FileDataSource;
 import com.mitrais.exception.DataSourceException;
-import com.mitrais.model.Account;
-import com.mitrais.repository.AccountRepository;
+import com.mitrais.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,11 +23,11 @@ import java.time.format.DateTimeFormatter;
 public class FileUploadController {
 
     private static final String TEMP_DIR = "tmp";
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @Autowired
-    public FileUploadController(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
+    public FileUploadController(AccountService accountService) {
+        this.accountService = accountService;
     }
 
     @GetMapping
@@ -42,9 +39,8 @@ public class FileUploadController {
     public String submit(@RequestParam("file") MultipartFile file, ModelMap modelMap) {
         try {
             String filePath = write(file, "txt");
-            System.out.println(filePath);
-            DataSource<Account> dataSource = new FileDataSource(filePath);
-            dataSource.saveToRepo(accountRepository);
+            accountService.importFromFile(filePath);
+
         } catch (IOException | DataSourceException e) {
             modelMap.addAttribute("error", e.getMessage());
             return "FileUpload";

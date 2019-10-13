@@ -8,9 +8,11 @@ import com.mitrais.model.TransferSummary;
 public interface AccountService {
     Account validate(String accountNumber, String pin) throws InvalidAccountException;
 
-    TransactionSummary deduct(Account account, int i) throws BalanceInsufficientException, MaximumAmountException, InvalidAmountException, InvalidAccountException;
+    TransactionSummary deduct(String accountNumber, int i) throws BalanceInsufficientException, MaximumAmountException, InvalidAmountException, InvalidAccountException;
 
-    TransferSummary transfer(String accountNumber, String destinationAccount, String transferAmount, String refNumber) throws
+    TransferSummary transfer(String accountNumber, String destinationAccount, Integer transferAmount, String refNumber) throws
             InvalidAccountException, MaximumAmountException, MinimumAmountException, InvalidAmountException,
             BalanceInsufficientException, InvalidRefNumberException;
+
+    void importFromFile(String filePath) throws DataSourceException;
 }

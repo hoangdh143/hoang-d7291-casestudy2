@@ -67,7 +67,7 @@ public class FundTransferController {
     public String confirmAndTransfer(Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         TransferConfirmation transferConfirmation = (TransferConfirmation) httpSession.getAttribute("transferConfirmation");
         try {
-            TransferSummary transferSummary = accountService.transfer(transferConfirmation.getAccount().getAccountNumber(), transferConfirmation.getDestinationAccount(), transferConfirmation.getTransferAmount().toString(), transferConfirmation.getReferenceNumber());
+            TransferSummary transferSummary = accountService.transfer(transferConfirmation.getAccount().getAccountNumber(), transferConfirmation.getDestinationAccount(), transferConfirmation.getTransferAmount(), transferConfirmation.getReferenceNumber());
             redirectAttributes.addFlashAttribute("transferSummary", transferSummary);
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());

@@ -33,7 +33,7 @@ public class WithdrawController {
     public String summary(Model model, @ModelAttribute("amount") Integer amount, HttpSession httpSession, RedirectAttributes redirectAttributes) {
         Account account = (Account) httpSession.getAttribute("account");
         try {
-                TransactionSummary transactionSummary = accountService.deduct(account, amount);
+                TransactionSummary transactionSummary = accountService.deduct(account.getAccountNumber(), amount);
                 redirectAttributes.addFlashAttribute("transactionSummary", transactionSummary);
                 return "redirect:/withdraw/summary";
         } catch (Exception e) {
