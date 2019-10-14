@@ -60,6 +60,12 @@
     <div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/logout"
             role="button">Exit</a></div>
 </div>
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
 </body>
 
 </html>
