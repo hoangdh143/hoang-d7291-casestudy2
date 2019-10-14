@@ -1,13 +1,28 @@
 package com.mitrais.model;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Data
+@Entity
+@Table(name = "account")
 public class Account implements Comparable<Account> {
-    private String name;
-    private String pin;
-    private Integer balance;
+    @Id
+    @Length(max = 6)
     private String accountNumber;
+
+    @Length(max = 200)
+    private String name;
+
+    @Length(max = 6)
+    private String pin;
+
+    private Integer balance;
+
 
     public Account(String name, String pin, Integer balance, String accountNumber) {
         setName(name);
