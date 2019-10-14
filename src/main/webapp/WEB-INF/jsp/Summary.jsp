@@ -14,14 +14,21 @@
 
     <link href="${contextPath}/static/css/transaction.css" rel="stylesheet">
 
+    <%
+        if (null == session.getAttribute("account")) {
+            session.invalidate();
+            response.sendRedirect("/");
+        }
+    %>
+
 </head>
 
 <body class="text-center">
 <div class="container">
     <h1>Transaction Summary</h1>
     <p>Date: <fmt:formatDate value="${transactionSummary.date}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
-    <p>Withdraw: ${transactionSummary.withDraw}</p>
-    <p>Balance: ${transactionSummary.balance}</p>
+    <p>Withdraw: &dollar;${transactionSummary.withDraw}</p>
+    <p>Balance: &dollar;${transactionSummary.balance}</p>
     <div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/transaction" role="button">Make
         another Transaction</a></div>
     <div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/logout" role="button">Exit</a></div>

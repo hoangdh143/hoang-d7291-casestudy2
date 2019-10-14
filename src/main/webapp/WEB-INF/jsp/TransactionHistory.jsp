@@ -15,6 +15,12 @@
 
     <link href="${contextPath}/static/css/transaction-history.css" rel="stylesheet">
 
+    <%
+        if (null == session.getAttribute("account")) {
+            session.invalidate();
+            response.sendRedirect("/");
+        }
+    %>
 
 </head>
 
@@ -41,9 +47,9 @@
             <tr>
                 <td>${trans.transactionCode}</td>
                 <td>${trans.description}</td>
-                <td>${trans.debit}</td>
-                <td>${trans.credit}</td>
-                <td>${trans.balance}</td>
+                <td>&dollar;${trans.debit}</td>
+                <td>&dollar;${trans.credit}</td>
+                <td>&dollar;${trans.balance}</td>
 <%--                <td><fmt:formatDate value="${trans.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>--%>
             <td><javatime:format value="${trans.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>

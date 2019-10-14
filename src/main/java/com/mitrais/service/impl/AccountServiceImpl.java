@@ -58,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public TransactionSummary deduct(String accountNumber, int amount) throws BalanceInsufficientException, MaximumAmountException, InvalidAmountException, InvalidAccountException {
         if (amount > 1000) throw new MaximumAmountException("Maximum amount to withdraw is $1000");
-        if (amount % 10 != 0) throw new InvalidAmountException("Invalid ammount");
+        if (amount % 10 != 0) throw new InvalidAmountException("Ammount must be a multiple of 10");
         Account accoundDb = accountRepository.findByAccountNumber(accountNumber);
         if (accoundDb != null) {
             if (amount > accoundDb.getBalance()) throw new BalanceInsufficientException("Insufficient balance $" + amount);

@@ -14,6 +14,13 @@
 
     <link href="${contextPath}/static/css/fund-transfer.css" rel="stylesheet">
 
+    <%
+        if (null == session.getAttribute("account")) {
+            session.invalidate();
+            response.sendRedirect("/");
+        }
+    %>
+
 </head>
 
 <body class="text-center">
@@ -22,7 +29,7 @@
         <h1>Transfer Confirmation</h1>
         <div class="error-message">${error}</div>
         <p>Destination Account: ${transferConfirmation.destinationAccount}</p>
-        <p>Transfer Amount: ${transferConfirmation.transferAmount}</p>
+        <p>Transfer Amount: &dollar;${transferConfirmation.transferAmount}</p>
         <p>Reference Number: ${transferConfirmation.referenceNumber}</p>
         <div><input class="btn btn-lg btn-primary" type="submit" value="Confirm"></div>
         <div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/transaction" role="button">Cancel</a>

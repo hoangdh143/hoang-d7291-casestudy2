@@ -14,6 +14,13 @@
 
     <link href="${contextPath}/static/css/fund-transfer.css" rel="stylesheet">
 
+    <%
+        if (null == session.getAttribute("account")) {
+            session.invalidate();
+            response.sendRedirect("/");
+        }
+    %>
+
 </head>
 
 <body class="text-center">
@@ -22,9 +29,9 @@
         <h1>Transfer Summary</h1>
         <div class="error-message">${error}</div>
         <p>Destination Account: ${transferSummary.destinationAccount}</p>
-        <p>Transfer Amount: ${transferSummary.transferAmount} </p>
+        <p>Transfer Amount: &dollar;${transferSummary.transferAmount} </p>
         <p>Reference Number: ${transferSummary.referenceNumber}</p>
-        <p>Balance: ${transferSummary.balance}</p>
+        <p>Balance: &dollar;${transferSummary.balance}</p>
         <div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/transaction" role="button">Make
             another transaction</a></div>
         <div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/logout"

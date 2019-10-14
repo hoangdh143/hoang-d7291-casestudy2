@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.InsufficientResourcesException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -50,45 +49,37 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void WhenImportFromFileShouldReturnAccount() {
+    public void WhenImportFromFileShouldReturnAccount() throws Exception {
         AccountService accountService = new AccountServiceImpl(accountRepository, transactionHistoryRepository);
 
-        try {
-            accountService.importFromFile("Accounts.csv");
-            Account accountDb = accountRepository.findByAccountNumber("353367");
-            assertThat(accountDb.getName(), equalToIgnoringCase("Susann Mitham"));
-        } catch (DataSourceException e) {
-            System.out.println(e.getMessage());
-        }
+        accountService.importFromFile("Accounts.csv");
+        Account accountDb = accountRepository.findByAccountNumber("353367");
+
+        assertThat(accountDb.getName(), equalToIgnoringCase("Susann Mitham"));
     }
 
     @Test
-    public void WhenImportFromFileShouldReturnAList() {
+    public void WhenImportFromFileShouldReturnAList() throws Exception {
         int ACCOUNT_LIST_SIZE = 96;
         AccountService accountService = new AccountServiceImpl(accountRepository, transactionHistoryRepository);
-        try {
-            accountService.importFromFile("Accounts.csv");
-            List<Account> accountDb = accountRepository.findAll();
-            Assert.assertEquals(accountDb.size(), ACCOUNT_LIST_SIZE);
 
-        } catch (DataSourceException e) {
-            System.out.println(e.getMessage());
-        }
+        accountService.importFromFile("Accounts.csv");
+        List<Account> accountDb = accountRepository.findAll();
+
+        Assert.assertEquals(accountDb.size(), ACCOUNT_LIST_SIZE);
     }
 
     @Test
-    public void WhenWithdrawAccountBalanceWillBeReduced() {
+    public void WhenWithdrawAccountBalanceWillBeReduced() throws Exception {
         Account account = new Account("Will Smith", "232432", 120, "121321" );
         Account accountDb = accountRepository.save(account);
         AccountService accountService = new AccountServiceImpl(accountRepository, transactionHistoryRepository);
 
-        try {
-            accountService.deduct(accountDb.getAccountNumber(), 20);
-            accountDb = accountRepository.findByAccountNumber(accountDb.getAccountNumber());
-            Assert.assertEquals(accountDb.getBalance().intValue(), 100);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        accountService.deduct(accountDb.getAccountNumber(), 20);
+        accountDb = accountRepository.findByAccountNumber(accountDb.getAccountNumber());
+
+        Assert.assertEquals(accountDb.getBalance().intValue(), 100);
+
     }
 
     @Test(expected = BalanceInsufficientException.class)
@@ -149,7 +140,7 @@ public class AccountServiceTest {
 
         accountService.deduct(account.getAccountNumber(), 20);
         Pageable page = PageRequest.of(0, 10);
-        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccount_AccountNumber(account.getAccountNumber(), page);
+        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccountNumber(account.getAccountNumber(), page);
 
         Assert.assertTrue(transactionHistoryList.stream().anyMatch(x -> x.getDebit() == 20));
 
@@ -166,7 +157,7 @@ public class AccountServiceTest {
         accountService.deduct(account.getAccountNumber(), 30);
 
         Pageable page = PageRequest.of(0, 10);
-        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccount_AccountNumber(account.getAccountNumber(), page);
+        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccountNumber(account.getAccountNumber(), page);
 
         Assert.assertTrue(transactionHistoryList.stream().anyMatch(x -> x.getDebit() == 20));
         Assert.assertTrue(transactionHistoryList.stream().anyMatch(x -> x.getDebit() == 10));
@@ -196,7 +187,7 @@ public class AccountServiceTest {
         });
 
         Pageable page = PageRequest.of(0, 10);
-        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccount_AccountNumber(account.getAccountNumber(), page);
+        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccountNumber(account.getAccountNumber(), page);
 
         Assert.assertTrue(
             transactionAmounts.containsAll(

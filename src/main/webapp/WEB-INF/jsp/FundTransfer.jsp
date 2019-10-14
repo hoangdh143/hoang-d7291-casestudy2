@@ -14,6 +14,13 @@
 
     <link href="${contextPath}/static/css/fund-transfer.css" rel="stylesheet">
 
+    <%
+        if (null == session.getAttribute("account")) {
+            session.invalidate();
+            response.sendRedirect("/");
+        }
+    %>
+
 </head>
 
 <body class="text-center">

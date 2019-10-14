@@ -3,6 +3,7 @@ package com.mitrais.controller;
 import com.mitrais.model.Account;
 import com.mitrais.model.TransferConfirmation;
 import com.mitrais.model.TransferSummary;
+import com.mitrais.repository.AccountRepository;
 import com.mitrais.service.AccountService;
 import com.mitrais.validator.AccountNumberValidator;
 import com.mitrais.validator.TransferAmountValidator;
@@ -29,10 +30,12 @@ import java.util.Objects;
 public class FundTransferController {
     static final String NUMERIC_STRING = "0123456789";
     private AccountService accountService;
+    private AccountRepository accountRepository;
 
     @Autowired
-    public FundTransferController(AccountService accountService) {
+    public FundTransferController(AccountService accountService, AccountRepository accountRepository) {
         this.accountService = accountService;
+        this.accountRepository = accountRepository;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -44,13 +47,16 @@ public class FundTransferController {
     public String processTransfer(Model model, @ModelAttribute("destinationAccount") String destinationAccount, @ModelAttribute("amount") Integer amount,
                                   BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes)
     {
-        new AccountNumberValidator().validate(destinationAccount, bindingResult);
-        new TransferAmountValidator().validate(amount, bindingResult);
+        Account account = (Account) httpSession.getAttribute("account");
+
+        new AccountNumberValidator().withAccount(account).withAccountRepo(accountRepository).validate(destinationAccount, bindingResult);
+        new TransferAmountValidator().withAccount(account).validate(amount, bindingResult);
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", Objects.requireNonNull(bindingResult.getGlobalError()).getDefaultMessage());
             return "FundTransfer";
         }
-        Account account = (Account) httpSession.getAttribute("account");
+
         TransferConfirmation transferConfirmation = new TransferConfirmation(account, destinationAccount, amount, createRandomString());
         redirectAttributes.addFlashAttribute("transferConfirmation", transferConfirmation);
         return "redirect:/transfer/confirm";
@@ -92,6 +98,5 @@ public class FundTransferController {
         }
         return builder.toString();
     }
-
 
 }

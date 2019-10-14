@@ -30,7 +30,7 @@ public class TransactionHistoryController {
     public String getTransactionList(Model model, HttpSession httpSession) {
         Account account = (Account) httpSession.getAttribute("account");
         Pageable page = PageRequest.of(0, PAGE_SIZE);
-        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccount_AccountNumber(account.getAccountNumber(), page);
+        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccountNumber(account.getAccountNumber(), page);
         model.addAttribute("transactionHistoryList", transactionHistoryList);
         return "TransactionHistory";
     }
