@@ -53,11 +53,9 @@ public class FileUploadController {
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmss-"));
         String fileName = date + file.getOriginalFilename();
 
-        // folderPath here is /sismed/temp/exames
         String folderPath = TEMP_DIR;
         String filePath = folderPath + "/" + fileName;
 
-        // Copies Spring's multipartfile inputStream to /sismed/temp/exames (absolute path)
         Files.copy(file.getInputStream(), Paths.get(filePath).toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING);
         return filePath;
     }
