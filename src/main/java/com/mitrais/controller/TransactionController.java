@@ -15,6 +15,7 @@ public class TransactionController {
     public String getTransaction(Model model, HttpSession httpSession) {
         Account account = (Account) httpSession.getAttribute("account");
         model.addAttribute("account", account);
+        if (account != null) model.addAttribute("username", account.getName());
         return "Transaction";
     }
 }

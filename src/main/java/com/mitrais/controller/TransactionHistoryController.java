@@ -29,19 +29,26 @@ public class TransactionHistoryController {
     @GetMapping
     public String getTransactionList(Model model, HttpSession httpSession) {
         Account account = (Account) httpSession.getAttribute("account");
-        Pageable page = PageRequest.of(0, PAGE_SIZE);
-        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccountNumber(account.getAccountNumber(), page);
-        model.addAttribute("transactionHistoryList", transactionHistoryList);
+        if (account != null) {
+            model.addAttribute("username", account.getName());
+
+            Pageable page = PageRequest.of(0, PAGE_SIZE);
+            List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccountNumber(account.getAccountNumber(), page);
+            model.addAttribute("transactionHistoryList", transactionHistoryList);
+        }
         return "TransactionHistory";
     }
 
     @PostMapping
-    public String getTransactionListByDate(Model model, @ModelAttribute("fromDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
-                                           @ModelAttribute("toDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate, HttpSession httpSession) {
+    public String getTransactionListByDate(Model model, @ModelAttribute("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, HttpSession httpSession) {
         Account account = (Account) httpSession.getAttribute("account");
-        Pageable page = PageRequest.of(0, PAGE_SIZE);
-        List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllTransactionByDate(account.getAccountNumber(), fromDate, toDate, page);
-        model.addAttribute("transactionHistoryList", transactionHistoryList);
+        if (account != null) {
+            model.addAttribute("username", account.getName());
+
+            Pageable page = PageRequest.of(0, PAGE_SIZE);
+            List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllTransactionByDate(account.getAccountNumber(), date, page);
+            model.addAttribute("transactionHistoryList", transactionHistoryList);
+        }
         return "TransactionHistory";
     }
 

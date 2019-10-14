@@ -6,7 +6,7 @@ import com.mitrais.model.TransactionSummary;
 import com.mitrais.model.TransferSummary;
 
 public interface AccountService {
-    Account validate(String accountNumber, String pin) throws InvalidAccountException;
+    Account authenticate(String accountNumber, String pin) throws InvalidAccountException;
 
     TransactionSummary deduct(String accountNumber, int i) throws BalanceInsufficientException, MaximumAmountException, InvalidAmountException, InvalidAccountException;
 

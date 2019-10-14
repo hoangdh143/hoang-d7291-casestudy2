@@ -23,7 +23,7 @@
 
 <body class="text-center">
 <div class="select-option">
-    <h2>Welcome ${userName}</h2>
+    <h2>Welcome ${username}</h2>
     <p>Please pick an option</p>
     <div><a class="btn btn-lg btn-primary" href="${pageContext.request.contextPath}/withdraw" role="button">Withdraw</a>
     </div>

@@ -36,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account validate(String accountNumber, String pin) throws InvalidAccountException {
+    public Account authenticate(String accountNumber, String pin) throws InvalidAccountException {
         AccountValidationContext context = new AccountValidationContext();
         context.addStrategy(AccountValidationStrategy.ACCOUNT_NUMBER);
         context.addStrategy(AccountValidationStrategy.PIN);

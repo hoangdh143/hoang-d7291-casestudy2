@@ -26,13 +26,12 @@
 
 <body class="text-center">
 <div class="container">
-    <h2>Welcome ${userName}</h2>
+    <h2>Welcome ${username}</h2>
+
     <form action="${pageContext.request.contextPath}/transaction_history" method="post">
-        <label for="fromDate">From Date</label>
-        <input type="date" id="fromDate" name="fromDate">
-        <label for="toDate">To Date</label>
-        <input type="date" id="toDate" name="toDate">
-        <input type="submit" value="Filter">
+        <label for="date">Find By Date</label>
+        <input type="date" id="date" name="date">
+        <input type="submit" value="Find">
     </form>
     <table class="table table-bordered history-table">
         <tr>
