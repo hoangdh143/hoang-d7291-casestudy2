@@ -34,7 +34,7 @@ public class FundTransferController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getForm(Model model) {
-        return "FundTransfer";
+        return "fund-transfer";
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -48,7 +48,7 @@ public class FundTransferController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", Objects.requireNonNull(bindingResult.getGlobalError()).getDefaultMessage());
-            return "FundTransfer";
+            return "fund-transfer";
         }
 
         TransferConfirmation transferConfirmation = new TransferConfirmation(account, destinationAccount, amount, createRandomString());
@@ -60,7 +60,7 @@ public class FundTransferController {
     public String confirmTransfer(Model model, @ModelAttribute("transferConfirmation") TransferConfirmation transferConfirmation, HttpSession httpSession) {
         httpSession.setAttribute("transferConfirmation", transferConfirmation);
         model.addAttribute("transferConfirmation", transferConfirmation);
-        return "FundTransferConfirmation";
+        return "fund-transfer-confirmation";
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
@@ -72,7 +72,7 @@ public class FundTransferController {
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("transferConfirmation", transferConfirmation);
-            return "FundTransferConfirmation";
+            return "fund-transfer-confirmation";
         }
         return "redirect:/transfer/summary";
     }
@@ -80,7 +80,7 @@ public class FundTransferController {
     @RequestMapping(value = "/summary", method = RequestMethod.GET)
     public String transferSummary(Model model, @ModelAttribute("transferSummary") TransferSummary transferSummary) {
         model.addAttribute("transferSummary", transferSummary);
-        return "FundTransferSummary";
+        return "fund-transfer-summary";
     }
 
     private static String createRandomString() {

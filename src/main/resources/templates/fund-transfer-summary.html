@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap-material-design.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/layout.css}" rel="stylesheet">
+
+    <title>Transaction</title>
+
+    <link th:href="@{/static/css/fund-transfer.css}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+<div class="container">
+    <form action="/transfer/confirm" method="post">
+        <h1>Transfer Summary</h1>
+        <div class="error-message">${error}</div>
+        <p>Destination Account: ${transferSummary.destinationAccount}</p>
+        <p>Transfer Amount: &dollar;${transferSummary.transferAmount} </p>
+        <p>Reference Number: ${transferSummary.referenceNumber}</p>
+        <p>Balance: &dollar;${transferSummary.balance}</p>
+        <div><a class="btn btn-lg btn-primary" th:href="@{/transaction}" role="button">Make
+            another transaction</a></div>
+        <div><a class="btn btn-lg btn-primary" th:href="@{/logout}"
+                role="button">Exit</a>
+        </div>
+    </form>
+
+</div>
+
+</body>
+
+</html>

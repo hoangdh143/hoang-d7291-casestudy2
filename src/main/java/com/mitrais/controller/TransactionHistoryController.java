@@ -36,7 +36,7 @@ public class TransactionHistoryController {
             List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccountNumber(account.getAccountNumber(), page);
             model.addAttribute("transactionHistoryList", transactionHistoryList);
         }
-        return "TransactionHistory";
+        return "transaction-history";
     }
 
     @PostMapping
@@ -49,7 +49,7 @@ public class TransactionHistoryController {
             List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllTransactionByDate(account.getAccountNumber(), date, page);
             model.addAttribute("transactionHistoryList", transactionHistoryList);
         }
-        return "TransactionHistory";
+        return "transaction-history";
     }
 
 }

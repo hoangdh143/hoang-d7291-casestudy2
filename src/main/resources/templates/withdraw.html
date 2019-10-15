@@ -1,25 +1,17 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <jsp:include page="Header.jsp"></jsp:include>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap-material-design.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/layout.css}" rel="stylesheet">
 
     <title>Transaction</title>
 
-    <link href="${contextPath}/static/css/withdraw.css" rel="stylesheet">
-
-    <%
-        if (null == session.getAttribute("account")) {
-            session.invalidate();
-            response.sendRedirect("/");
-        }
-    %>
-
+    <link th:href="@{/static/css/withdraw.css}" rel="stylesheet">
 </head>
 
 <body class="text-center">
@@ -27,17 +19,17 @@
     <h2>Withdraw</h2>
     <div class="error-message">${error}</div>
     <p>Please select an amount to withdraw</p>
-    <form action="${pageContext.request.contextPath}/withdraw" method="post">
+    <form th:action="@{/withdraw}" method="post">
         <input type="hidden" name="amount" value="10">
         <input class="btn btn-lg btn-primary" type="submit" value="$10"/>
     </form>
 
-    <form action="${pageContext.request.contextPath}/withdraw" method="post">
+    <form th:action="@{/withdraw}" method="post">
         <input type="hidden" name="amount" value="50">
         <input class="btn btn-lg btn-primary" type="submit" value="$50"/>
     </form>
 
-    <form action="${pageContext.request.contextPath}/withdraw" method="post">
+    <form th:action="@{/withdraw}" method="post">
         <input type="hidden" name="amount" value="100">
         <input class="btn btn-lg btn-primary" type="submit" value="$100"/>
     </form>
@@ -45,10 +37,10 @@
     <button class="btn btn-lg btn-primary" type="button" data-toggle="collapse" data-target="#other-amount">Other</button>
 
     <div class="collapse" id="other-amount">
-    <form class="form-group" action="${pageContext.request.contextPath}/withdraw" method="post">
-        <input class="form-control" type="number" name="amount" value="0">
-        <input class="btn btn-lg btn-primary" type="submit" value="Withdraw"/>
-    </form>
+        <form class="form-group" th:action="@{/withdraw}" method="post">
+            <input class="form-control" type="number" name="amount" value="0">
+            <input class="btn btn-lg btn-primary" type="submit" value="Withdraw"/>
+        </form>
     </div>
 
 </div>

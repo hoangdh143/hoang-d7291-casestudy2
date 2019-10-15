@@ -26,7 +26,7 @@ public class WithdrawController {
 
     @GetMapping
     public String withdraw() {
-        return "Withdraw";
+        return "withdraw";
     }
 
     @PostMapping
@@ -38,12 +38,12 @@ public class WithdrawController {
                 return "redirect:/withdraw/summary";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "Withdraw";
+            return "withdraw";
         }
     }
 
     @GetMapping("/summary")
     public String withdrawSummary(Model model, @ModelAttribute("transactionSummary") TransactionSummary transactionSummary) {
-        return "Summary";
+        return "summary";
     }
 }

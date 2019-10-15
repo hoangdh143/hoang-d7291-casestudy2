@@ -28,7 +28,7 @@ public class AuthenticationController {
     @GetMapping("/login")
     public String loadLoginPage(HttpServletRequest req, HttpServletResponse resp, HttpSession session){
         session.setAttribute("error", null);
-        return "Login";
+        return "login";
     }
 
     @PostMapping("/login")
@@ -41,7 +41,7 @@ public class AuthenticationController {
             return "redirect:/transaction";
         } catch (InvalidAccountException e) {
             model.addAttribute("error", e.getMessage());
-            return "Login";
+            return "login";
         }
     }
 

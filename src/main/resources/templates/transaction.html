@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap-material-design.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/layout.css}" rel="stylesheet">
+
+    <title>Transaction</title>
+
+</head>
+
+<body class="text-center">
+<div class="select-option">
+    <h2>Welcome <span th:text="${username}"></span></h2>
+    <p>Please pick an option</p>
+    <div><a class="btn btn-lg btn-primary" th:href="@{/withdraw}" role="button">Withdraw</a>
+    </div>
+    <div><a class="btn btn-lg btn-primary" th:href="@{/transfer}" role="button">Transfer</a>
+    </div>
+    <div><a class="btn btn-lg btn-primary" th:href="@{/transaction_history}" role="button">View
+        Transaction History</a></div>
+    <div><a class="btn btn-lg btn-primary" th:href="@{/logout}"
+            role="button">Exit</a></div>
+</div>
+</body>
+
+</html>

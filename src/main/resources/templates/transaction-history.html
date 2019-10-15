@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap-material-design.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/layout.css}" rel="stylesheet">
+
+    <title>Transaction</title>
+
+    <link th:href="@{/static/css/transaction-history.css}" rel="stylesheet">
+
+</head>
+
+<body class="text-center">
+<div class="container">
+    <h2>Welcome ${username}</h2>
+
+    <form th:action="@{/transaction_history}" method="post">
+        <label for="date">Find By Date</label>
+        <input type="date" id="date" name="date">
+        <input type="submit" value="Find">
+    </form>
+    <table class="table table-bordered history-table">
+        <tr>
+            <th scope="col">Transaction Code</th>
+            <th scope="col">Description</th>
+            <th scope="col">Debit</th>
+            <th scope="col">Credit</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Created At</th>
+        </tr>
+        <th:block th:each="trans: ${transactionHistoryList}">
+            <tr>
+                <td>${trans.transactionCode}</td>
+                <td>${trans.description}</td>
+                <td>&dollar;${trans.debit}</td>
+                <td>&dollar;${trans.credit}</td>
+                <td>&dollar;${trans.balance}</td>
+                <td>${trans.createdAt}</td>
+            </tr>
+        </th:block>
+    </table>
+    <div><a class="btn btn-lg btn-primary" th:href="@{/transaction}" role="button">Make
+        another transaction</a></div>
+    <div><a class="btn btn-lg btn-primary" th:href="@{/logout}"
+            role="button">Exit</a></div>
+</div>
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+</body>
+
+</html>

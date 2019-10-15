@@ -43,10 +43,10 @@ public class FileUploadController {
 
         } catch (IOException | DataSourceException e) {
             modelMap.addAttribute("error", e.getMessage());
-            return "FileUpload";
+            return "file-upload";
         }
         modelMap.addAttribute("file", file);
-        return "Login";
+        return "login-original";
     }
 
     private String write(MultipartFile file, String fileType) throws IOException {

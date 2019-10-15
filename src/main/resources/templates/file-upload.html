@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Signin</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap-material-design.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/layout.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/static/css/file-upload.css}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+
+<form class="form-group" method="post" th:action="@{/file_upload}" enctype="multipart/form-data">
+    <h1 class="h3 mb-3 font-weight-normal">File Upload</h1>
+    <div class="error-message">${error}</div>
+
+    <input type="file" name="file" id="fileUpload" class="form-control" required autofocus>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Upload</button>
+</form>
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
+<script th:src="@{/static/js/bootstrap.min.js}"></script>
+</body>
+
+</html>
