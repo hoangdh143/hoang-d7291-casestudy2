@@ -32,7 +32,7 @@ public class FileUploadController {
 
     @GetMapping
     public String uploadPage(ModelMap modelMap) {
-        return "FileUpload";
+        return "file-upload";
     }
 
     @PostMapping
