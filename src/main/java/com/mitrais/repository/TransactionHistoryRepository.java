@@ -20,4 +20,7 @@ public interface TransactionHistoryRepository extends JpaRepository<TransactionH
 
     @Query(value = "Select count(t) from TransactionHistory t where t.account.accountNumber = ?1")
     int countByAccountNumber(String accountNumber);
+
+    @Query(value = "SELECT COUNT(*) FROM transaction_history t WHERE t.account_id = :accNumber AND DATE(t.created_at) = :date", nativeQuery = true)
+    int countByAccountNumberAndDate(@Param("accNumber") String accountNumber, @Param("date") LocalDate date);
 }
