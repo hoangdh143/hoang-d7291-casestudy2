@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap-material-design.min.css}" rel="stylesheet">
+<!--    <link th:href="@{/static/css/layout.css}" rel="stylesheet">-->
+
+    <title>Transaction</title>
+
+    <link th:href="@{/static/css/transaction-history.css}" rel="stylesheet">
+
+</head>
+
+<body class="text-center">
+<div class="container">
+<!--    <h2>Welcome <span th:text="${username}"></span></h2>-->
+
+<!--    <form th:action="@{/transaction_history}" method="post">-->
+<!--        <label for="date">Find By Date</label>-->
+<!--        <input type="date" id="date" name="date" th:value="${date}">-->
+<!--        <input type="submit" value="Find">-->
+<!--    </form>-->
+
+<!--    <div class="table-responsive">-->
+<!--    <table class="table table-bordered history-table">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Transaction Code</th>-->
+<!--            <th>Description</th>-->
+<!--            <th>Debit</th>-->
+<!--            <th>Credit</th>-->
+<!--            <th>Balance</th>-->
+<!--            <th>Created At</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="trans: ${transactionHistoryList}">-->
+<!--            <td th:text="${trans.transactionCode}"></td>-->
+<!--            <td th:text="${trans.description}"></td>-->
+<!--            <td>&dollar;<span th:text="${trans.debit}"></span></td>-->
+<!--            <td>&dollar;<span th:text="${trans.credit}"></span></td>-->
+<!--            <td>&dollar;<span th:text="${trans.balance}"></span></td>-->
+<!--            <td th:text="${#temporals.format(trans.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--    </div>-->
+
+    <div>
+        <h2>Welcome <span th:text="${username}"></span></h2>
+    </div>
+    <div>
+    <form th:action="@{/transaction_history}" method="get">
+        <label for="date-input">Find By Date</label>
+        <input type="date" id="date-input" name="date" th:value="${date}">
+        <input type="submit" value="Find">
+        <a th:href="@{/transaction_history}">Reset</a>
+    </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped history-table table-sm">
+            <thead>
+            <tr>
+                <th>Transaction Code</th>
+                <th>Description</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Balance</th>
+                <th>Created At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="trans: ${transactionHistoryList}">
+                <td th:text="${trans.transactionCode}"></td>
+                <td th:text="${trans.description}"></td>
+                <td>&dollar;<span th:text="${trans.debit}"></span></td>
+                <td>&dollar;<span th:text="${trans.credit}"></span></td>
+                <td>&dollar;<span th:text="${trans.balance}"></span></td>
+                <td th:text="${#temporals.format(trans.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <div class="pagination-item">Page</div>
+        <div th:if="${totalPages > 0}"
+             th:each="pageNumber : ${pageNumbers}">
+            <a
+                    th:href="@{/transaction_history(size=${10}, page=${pageNumber}, date=${date})}"
+                    th:text="${pageNumber}"
+                    th:class="pagination-item"
+                    th:classappend="${pageNumber==currentPage} ? active"></a>
+        </div>
+    </div>
+
+
+    <div><a class="btn btn-lg btn-primary" th:href="@{/transaction}" role="button">Make
+        another transaction</a></div>
+    <a class="btn btn-lg btn-primary" th:href="@{/transaction}">Back To Menu</a>
+    <div><a class="btn btn-lg btn-primary" th:href="@{/logout}"
+            role="button">Exit</a></div>
+</div>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+</body>
+
+</html>

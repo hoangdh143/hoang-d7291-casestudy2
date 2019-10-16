@@ -2,3 +2,18 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination-item {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.active {
+    color: black;
+    opacity: 0.5;
+}

@@ -11,6 +11,6 @@ public class WelcomeController {
 
 	@GetMapping("/")
 	public String welcome(HttpServletRequest request, HttpServletResponse response) {
-		return "redirect:/login";
+		return "redirect:/transaction";
 	}
 }

@@ -10,13 +10,19 @@ import com.mitrais.validator.TransferAmountValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.*;
+import org.springframework.web.bind.EscapedErrors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.xml.bind.DataBindingException;
+import java.util.HashMap;
 import java.util.Objects;
 
 @Controller
@@ -34,12 +40,12 @@ public class FundTransferController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getForm(Model model) {
-        return "FundTransfer";
+        return "fund-transfer";
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String processTransfer(Model model, @ModelAttribute("destinationAccount") String destinationAccount, @ModelAttribute("amount") Integer amount,
-                                  BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes)
+    public String processTransfer(Model model, @ModelAttribute("destinationAccount") String destinationAccount, @RequestParam("amount") Integer amount, BindingResult bindingResult,
+                                  HttpSession httpSession, RedirectAttributes redirectAttributes)
     {
         Account account = (Account) httpSession.getAttribute("account");
 
@@ -48,7 +54,7 @@ public class FundTransferController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", Objects.requireNonNull(bindingResult.getGlobalError()).getDefaultMessage());
-            return "FundTransfer";
+            return "fund-transfer";
         }
 
         TransferConfirmation transferConfirmation = new TransferConfirmation(account, destinationAccount, amount, createRandomString());
@@ -60,7 +66,7 @@ public class FundTransferController {
     public String confirmTransfer(Model model, @ModelAttribute("transferConfirmation") TransferConfirmation transferConfirmation, HttpSession httpSession) {
         httpSession.setAttribute("transferConfirmation", transferConfirmation);
         model.addAttribute("transferConfirmation", transferConfirmation);
-        return "FundTransferConfirmation";
+        return "fund-transfer-confirmation";
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
@@ -72,7 +78,7 @@ public class FundTransferController {
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("transferConfirmation", transferConfirmation);
-            return "FundTransferConfirmation";
+            return "fund-transfer-confirmation";
         }
         return "redirect:/transfer/summary";
     }
@@ -80,7 +86,7 @@ public class FundTransferController {
     @RequestMapping(value = "/summary", method = RequestMethod.GET)
     public String transferSummary(Model model, @ModelAttribute("transferSummary") TransferSummary transferSummary) {
         model.addAttribute("transferSummary", transferSummary);
-        return "FundTransferSummary";
+        return "fund-transfer-summary";
     }
 
     private static String createRandomString() {

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap-material-design.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/layout.css}" rel="stylesheet">
+
+    <title>Transaction</title>
+
+    <link th:href="@{/static/css/fund-transfer.css}" rel="stylesheet">
+
+</head>
+
+<body class="text-center">
+
+<form class="form-group" th:action="@{/transfer}" method="post">
+
+    <h1 class="h3 mb-3 font-weight-normal">Fund Transfer</h1>
+    <div class="error-message" th:text="${error}"></div>
+
+    <label for="destinationAccount" class="form-label">Destination Account</label>
+    <input type="text" class="form-control" name="destinationAccount" id="destinationAccount">
+
+    <label for="amount" class="form-label">Transfer Amount</label>
+    <input type="number" class="form-control" name="amount" id="amount">
+
+    <a class="btn btn-lg btn-primary" th:href="@{/transaction}">Back To Menu</a>
+    <input class="btn btn-lg btn-primary" type="submit" value="Continue"/>
+</form>
+
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
+</body>
+
+</html>
