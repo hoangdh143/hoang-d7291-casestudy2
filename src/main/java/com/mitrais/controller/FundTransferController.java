@@ -10,14 +10,19 @@ import com.mitrais.validator.TransferAmountValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.*;
+import org.springframework.web.bind.EscapedErrors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import javax.xml.bind.DataBindingException;
+import java.util.HashMap;
 import java.util.Objects;
 
 @Controller
@@ -39,8 +44,8 @@ public class FundTransferController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String processTransfer(Model model, @RequestParam("destinationAccount") String destinationAccount, @RequestParam("amount") Integer amount,
-                                  BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes)
+    public String processTransfer(Model model, @ModelAttribute("destinationAccount") String destinationAccount, @RequestParam("amount") Integer amount, BindingResult bindingResult,
+                                  HttpSession httpSession, RedirectAttributes redirectAttributes)
     {
         Account account = (Account) httpSession.getAttribute("account");
 
@@ -58,7 +63,7 @@ public class FundTransferController {
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
-    public String confirmTransfer(Model model, @ModelAttribute("transferConfirmation") TransferConfirmation transferConfirmation, HttpSession httpSession) {
+    public String confirmTransfer(Model model, @RequestParam("transferConfirmation") TransferConfirmation transferConfirmation, HttpSession httpSession) {
         httpSession.setAttribute("transferConfirmation", transferConfirmation);
         model.addAttribute("transferConfirmation", transferConfirmation);
         return "fund-transfer-confirmation";
@@ -79,7 +84,7 @@ public class FundTransferController {
     }
 
     @RequestMapping(value = "/summary", method = RequestMethod.GET)
-    public String transferSummary(Model model, @ModelAttribute("transferSummary") TransferSummary transferSummary) {
+    public String transferSummary(Model model, @RequestParam("transferSummary") TransferSummary transferSummary) {
         model.addAttribute("transferSummary", transferSummary);
         return "fund-transfer-summary";
     }
