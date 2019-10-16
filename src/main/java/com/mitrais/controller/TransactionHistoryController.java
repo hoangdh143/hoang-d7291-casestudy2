@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/transaction_history")
@@ -27,14 +29,22 @@ public class TransactionHistoryController {
     }
 
     @GetMapping
-    public String getTransactionList(Model model, HttpSession httpSession) {
+    public String getTransactionList(Model model, HttpSession httpSession, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+        final int currentPage = page.orElse(1);
+        final int pageSize = size.orElse(10);
+
+
         Account account = (Account) httpSession.getAttribute("account");
         if (account != null) {
             model.addAttribute("username", account.getName());
 
-            Pageable page = PageRequest.of(0, PAGE_SIZE);
-            List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccountNumber(account.getAccountNumber(), page);
+            int totalPages =  transactionHistoryRepository.countByAccountNumber(account.getAccountNumber())/pageSize + 1;
+            Pageable pageable = PageRequest.of(currentPage - 1, pageSize);
+            List<TransactionHistory> transactionHistoryList = transactionHistoryRepository.findAllByAccountNumber(account.getAccountNumber(), pageable);
             model.addAttribute("transactionHistoryList", transactionHistoryList);
+            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("pageNumbers", IntStream.rangeClosed(1, totalPages).toArray());
         }
         return "transaction-history";
     }

@@ -41,7 +41,7 @@ public class WithdrawController {
     }
 
     @GetMapping("/summary")
-    public String withdrawSummary(Model model, @RequestParam("transactionSummary") TransactionSummary transactionSummary) {
+    public String withdrawSummary(Model model, @ModelAttribute("transactionSummary") TransactionSummary transactionSummary) {
         return "summary";
     }
 }

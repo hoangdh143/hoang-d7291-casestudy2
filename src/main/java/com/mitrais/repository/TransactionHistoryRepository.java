@@ -17,4 +17,7 @@ public interface TransactionHistoryRepository extends JpaRepository<TransactionH
     List<TransactionHistory> findAllTransactionByDate(@Param("accNumber") String accountNumber,
                                                       @Param("date") LocalDate date,
                                                       Pageable pageable);
+
+    @Query(value = "Select count(t) from TransactionHistory t where t.account.accountNumber = ?1")
+    int countByAccountNumber(String accountNumber);
 }

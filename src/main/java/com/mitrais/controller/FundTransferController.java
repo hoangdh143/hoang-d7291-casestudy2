@@ -63,7 +63,7 @@ public class FundTransferController {
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
-    public String confirmTransfer(Model model, @RequestParam("transferConfirmation") TransferConfirmation transferConfirmation, HttpSession httpSession) {
+    public String confirmTransfer(Model model, @ModelAttribute("transferConfirmation") TransferConfirmation transferConfirmation, HttpSession httpSession) {
         httpSession.setAttribute("transferConfirmation", transferConfirmation);
         model.addAttribute("transferConfirmation", transferConfirmation);
         return "fund-transfer-confirmation";
@@ -84,7 +84,7 @@ public class FundTransferController {
     }
 
     @RequestMapping(value = "/summary", method = RequestMethod.GET)
-    public String transferSummary(Model model, @RequestParam("transferSummary") TransferSummary transferSummary) {
+    public String transferSummary(Model model, @ModelAttribute("transferSummary") TransferSummary transferSummary) {
         model.addAttribute("transferSummary", transferSummary);
         return "fund-transfer-summary";
     }

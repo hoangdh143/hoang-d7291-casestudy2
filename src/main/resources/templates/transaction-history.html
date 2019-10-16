@@ -17,13 +17,14 @@
 
 <body class="text-center">
 <div class="container">
-    <h2>Welcome ${username}</h2>
+    <h2>Welcome <span th:text="${username}"></span></h2>
 
     <form th:action="@{/transaction_history}" method="post">
         <label for="date">Find By Date</label>
-        <input type="date" id="date" name="date">
+        <input type="date" id="date" name="date" th:value="${date}">
         <input type="submit" value="Find">
     </form>
+
     <table class="table table-bordered history-table">
         <tr>
             <th scope="col">Transaction Code</th>
@@ -33,26 +34,39 @@
             <th scope="col">Balance</th>
             <th scope="col">Created At</th>
         </tr>
-        <th:block th:each="trans: ${transactionHistoryList}">
-            <tr>
-                <td th:text="${trans.transactionCode}"></td>
-                <td th:text="${trans.description}"></td>
-                <td>&dollar;<span th:text="${trans.debit}"></span></td>
-                <td>&dollar;<span th:text="${trans.credit}"></span></td>
-                <td>&dollar;<span th:text="${trans.balance}"></span></td>
-                <td th:text="${trans.createdAt}"></td>
-            </tr>
-        </th:block>
+        <tr th:each="trans: ${transactionHistoryList}">
+            <td th:text="${trans.transactionCode}"></td>
+            <td th:text="${trans.description}"></td>
+            <td>&dollar;<span th:text="${trans.debit}"></span></td>
+            <td>&dollar;<span th:text="${trans.credit}"></span></td>
+            <td>&dollar;<span th:text="${trans.balance}"></span></td>
+            <td th:text="${#temporals.format(trans.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
     </table>
+
+    <div class="pagination">
+        <div class="pagination-item">Page</div>
+        <div th:if="${totalPages > 0}"
+             th:each="pageNumber : ${pageNumbers}">
+            <a
+               th:href="@{/transaction_history(size=${10}, page=${pageNumber})}"
+               th:text="${pageNumber}"
+               th:class="pagination-item"
+               th:classappend="${pageNumber==currentPage} ? active"></a>
+        </div>
+    </div>
+
+
     <div><a class="btn btn-lg btn-primary" th:href="@{/transaction}" role="button">Make
         another transaction</a></div>
+    <a class="btn btn-lg btn-primary" th:href="@{/transaction}">Back To Menu</a>
     <div><a class="btn btn-lg btn-primary" th:href="@{/logout}"
             role="button">Exit</a></div>
 </div>
 
 <script>
-    if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
     }
 </script>
 </body>
