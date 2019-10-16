@@ -18,9 +18,9 @@
 <body class="text-center">
 <div class="container">
     <h1>Transaction Summary</h1>
-    <p>Date: ${transactionSummary.date}</p>
-    <p>Withdraw: &dollar;${transactionSummary.withDraw}</p>
-    <p>Balance: &dollar;${transactionSummary.balance}</p>
+    <p>Date: <span th:text="${#dates.format(transactionSummary.date, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+    <p>Withdraw: &dollar;<span th:text="${transactionSummary.withDraw}"></span></p>
+    <p>Balance: &dollar;<span th:text="${transactionSummary.balance}"></span></p>
     <div><a class="btn btn-lg btn-primary" th:href="@{/transaction}" role="button">Make
         another Transaction</a></div>
     <div><a class="btn btn-lg btn-primary" th:href="@{/logout}" role="button">Exit</a></div>

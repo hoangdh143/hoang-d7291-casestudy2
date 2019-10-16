@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -38,7 +39,7 @@ public class FundTransferController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String processTransfer(Model model, @ModelAttribute("destinationAccount") String destinationAccount, @ModelAttribute("amount") Integer amount,
+    public String processTransfer(Model model, @RequestParam("destinationAccount") String destinationAccount, @RequestParam("amount") Integer amount,
                                   BindingResult bindingResult, HttpSession httpSession, RedirectAttributes redirectAttributes)
     {
         Account account = (Account) httpSession.getAttribute("account");

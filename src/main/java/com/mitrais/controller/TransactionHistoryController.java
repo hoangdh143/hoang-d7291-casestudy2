@@ -40,7 +40,7 @@ public class TransactionHistoryController {
     }
 
     @PostMapping
-    public String getTransactionListByDate(Model model, @ModelAttribute("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, HttpSession httpSession) {
+    public String getTransactionListByDate(Model model, @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date, HttpSession httpSession) {
         Account account = (Account) httpSession.getAttribute("account");
         if (account != null) {
             model.addAttribute("username", account.getName());

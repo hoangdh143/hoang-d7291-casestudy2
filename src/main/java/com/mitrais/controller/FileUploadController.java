@@ -46,7 +46,8 @@ public class FileUploadController {
             return "file-upload";
         }
         modelMap.addAttribute("file", file);
-        return "login-original";
+        modelMap.addAttribute("success", true);
+        return "file-upload";
     }
 
     private String write(MultipartFile file, String fileType) throws IOException {

@@ -18,11 +18,11 @@
 <div class="container">
     <form action="/transfer/confirm" method="post">
         <h1>Transfer Summary</h1>
-        <div class="error-message">${error}</div>
-        <p>Destination Account: ${transferSummary.destinationAccount}</p>
-        <p>Transfer Amount: &dollar;${transferSummary.transferAmount} </p>
-        <p>Reference Number: ${transferSummary.referenceNumber}</p>
-        <p>Balance: &dollar;${transferSummary.balance}</p>
+        <div class="error-message" th:text="${error}"></div>
+        <p>Destination Account: <span th:text="${transferSummary.destinationAccount}"></span></p>
+        <p>Transfer Amount: &dollar;<span th:text="${transferSummary.transferAmount}"></span></p>
+        <p>Reference Number: <span th:text="${transferSummary.referenceNumber}"></span></p>
+        <p>Balance: &dollar;<span th:text="${transferSummary.balance}"></span></p>
         <div><a class="btn btn-lg btn-primary" th:href="@{/transaction}" role="button">Make
             another transaction</a></div>
         <div><a class="btn btn-lg btn-primary" th:href="@{/logout}"

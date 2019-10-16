@@ -20,7 +20,10 @@
 
 <form class="form-group" method="post" th:action="@{/file_upload}" enctype="multipart/form-data">
     <h1 class="h3 mb-3 font-weight-normal">File Upload</h1>
-    <div class="error-message">${error}</div>
+    <div class="error-message" th:text="${error}"></div>
+    <div class="success-message" th:if="${success}">
+        <p>File imported successfully!</p>
+    </div>
 
     <input type="file" name="file" id="fileUpload" class="form-control" required autofocus>
 

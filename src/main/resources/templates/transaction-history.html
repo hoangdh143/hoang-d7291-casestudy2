@@ -35,12 +35,12 @@
         </tr>
         <th:block th:each="trans: ${transactionHistoryList}">
             <tr>
-                <td>${trans.transactionCode}</td>
-                <td>${trans.description}</td>
-                <td>&dollar;${trans.debit}</td>
-                <td>&dollar;${trans.credit}</td>
-                <td>&dollar;${trans.balance}</td>
-                <td>${trans.createdAt}</td>
+                <td th:text="${trans.transactionCode}"></td>
+                <td th:text="${trans.description}"></td>
+                <td>&dollar;<span th:text="${trans.debit}"></span></td>
+                <td>&dollar;<span th:text="${trans.credit}"></span></td>
+                <td>&dollar;<span th:text="${trans.balance}"></span></td>
+                <td th:text="${trans.createdAt}"></td>
             </tr>
         </th:block>
     </table>
