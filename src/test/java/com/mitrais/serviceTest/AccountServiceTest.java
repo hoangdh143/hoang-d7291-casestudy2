@@ -1,6 +1,6 @@
 package com.mitrais.serviceTest;
 
-import com.mitrais.config.DataSourceConfig;
+import com.mitrais.MyApplication;
 import com.mitrais.exception.*;
 import com.mitrais.model.Account;
 import com.mitrais.model.TransactionHistory;
@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
@@ -32,8 +33,8 @@ import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@SpringBootTest(classes = {
-        DataSourceConfig.class})
+@PropertySource("application-test.properties")
+@SpringBootTest(classes = MyApplication.class)
 @ActiveProfiles("test")
 @Transactional
 public class AccountServiceTest {
