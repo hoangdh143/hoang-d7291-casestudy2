@@ -38,8 +38,8 @@ public class FileUploadController {
     @PostMapping
     public String submit(@RequestParam("file") MultipartFile file, ModelMap modelMap) {
         try {
-            String filePath = write(file, "txt");
-            accountService.importFromFile(filePath);
+
+            accountService.importFromFile(file.getInputStream());
 
         } catch (IOException | DataSourceException e) {
             modelMap.addAttribute("error", e.getMessage());
@@ -50,14 +50,4 @@ public class FileUploadController {
         return "file-upload";
     }
 
-    private String write(MultipartFile file, String fileType) throws IOException {
-        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmmss-"));
-        String fileName = date + file.getOriginalFilename();
-
-        String folderPath = TEMP_DIR;
-        String filePath = folderPath + "/" + fileName;
-
-        Files.copy(file.getInputStream(), Paths.get(filePath).toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING);
-        return filePath;
-    }
 }
