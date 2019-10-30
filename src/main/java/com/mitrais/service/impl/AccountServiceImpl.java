@@ -2,6 +2,7 @@ package com.mitrais.service.impl;
 
 import com.mitrais.config.ExternalDataSource;
 import com.mitrais.config.FileExternalDataSource;
+import com.mitrais.config.FileInputStreamDataSource;
 import com.mitrais.exception.*;
 import com.mitrais.model.Account;
 import com.mitrais.model.TransactionHistory;
@@ -15,6 +16,7 @@ import com.mitrais.validator.AccountValidationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Optional;
 
@@ -32,6 +34,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void importFromFile(String filePath) throws DataSourceException {
         ExternalDataSource<Account> externalDataSource = new FileExternalDataSource(filePath);
+        externalDataSource.saveToRepo(accountRepository);
+    }
+
+    @Override
+    public void importFromFile(InputStream inputStream) throws DataSourceException {
+        ExternalDataSource<Account> externalDataSource = new FileInputStreamDataSource(inputStream);
         externalDataSource.saveToRepo(accountRepository);
     }
 
