@@ -72,7 +72,11 @@ public class WithdrawalSteps implements En {
                     .andExpect(redirectedUrl("/transaction"));
         });
 
-        When("^user performs a withdrawal of (\\d+)$", (Integer amount) -> {
+        When("user performs a withdrawal on {localDate} of {int}", (LocalDate date, Integer amount) -> {
+            Clock fixedClock = Clock.fixed(date.atStartOfDay().toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
+            when(clock.getZone()).thenReturn(fixedClock.getZone());
+            when(clock.instant()).thenReturn(fixedClock.instant());
+
             mockMvc.perform(post("/withdraw")
                     .param("amount", amount.toString()))
                     .andExpect(status().is3xxRedirection())
