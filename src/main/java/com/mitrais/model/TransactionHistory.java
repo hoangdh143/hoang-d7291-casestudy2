@@ -33,13 +33,13 @@ public class TransactionHistory {
     public TransactionHistory() {
     }
 
-    public TransactionHistory(Account account, String description, Integer debit, Integer credit, Integer balance) {
+    public TransactionHistory(Account account, String description, Integer debit, Integer credit, Integer balance, LocalDateTime createdAt) {
         this.account = account;
         this.description = description;
         this.debit = debit;
         this.credit = credit;
         this.balance = balance;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = createdAt;
     }
 
     @Override

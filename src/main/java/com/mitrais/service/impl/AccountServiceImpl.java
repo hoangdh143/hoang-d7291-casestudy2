@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 
@@ -24,6 +27,9 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
     private TransactionHistoryRepository transactionHistoryRepository;
+
+    @Autowired
+    private Clock clock;
 
     @Autowired
     public AccountServiceImpl(AccountRepository accountRepository, TransactionHistoryRepository transactionHistoryRepository) {
@@ -73,9 +79,10 @@ public class AccountServiceImpl implements AccountService {
             accoundDb.setBalance(accoundDb.getBalance() - amount);
             accountRepository.save(accoundDb);
 
-            transactionHistoryRepository.save(new TransactionHistory(accoundDb, "Withdraw transaction", amount, 0, accoundDb.getBalance()));
+            LocalDateTime createdAt = LocalDateTime.now(clock);
+            transactionHistoryRepository.save(new TransactionHistory(accoundDb, "Withdraw transaction", amount, 0, accoundDb.getBalance(), createdAt));
 
-            return new TransactionSummary(new Date(), amount, accoundDb.getBalance());
+            return new TransactionSummary(createdAt, amount, accoundDb.getBalance());
         } else {
             throw new InvalidAccountException("Invalid account");
         }
@@ -103,8 +110,9 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(sourceAccount);
         accountRepository.save(destAccount);
 
-        transactionHistoryRepository.save(new TransactionHistory(sourceAccount, "Transfer transaction", amount, 0, sourceAccount.getBalance()));
-        transactionHistoryRepository.save(new TransactionHistory(destAccount, "Received from transfer transaction", 0, amount, destAccount.getBalance()));
+        LocalDateTime createdAt = LocalDateTime.now(clock);
+        transactionHistoryRepository.save(new TransactionHistory(sourceAccount, "Transfer transaction", amount, 0, sourceAccount.getBalance(), createdAt));
+        transactionHistoryRepository.save(new TransactionHistory(destAccount, "Received from transfer transaction", 0, amount, destAccount.getBalance(), createdAt));
 
         return new TransferSummary(destinationAccount, amount, refNumber, sourceAccount.getBalance());
     }

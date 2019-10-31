@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @PropertySource("application-test.properties")
-@ContextConfiguration(classes = MyApplication.class, loader = SpringBootContextLoader.class)
+@ContextConfiguration(classes = AppTest.class, loader = SpringBootContextLoader.class)
 @ActiveProfiles("test")
 @Transactional
 public class CucumberContextConfiguration {
