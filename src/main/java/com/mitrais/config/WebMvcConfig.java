@@ -11,6 +11,8 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+import java.time.Clock;
+
 @EnableWebMvc
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -32,5 +34,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         resolver.setTemplateMode(TemplateMode.HTML);
         resolver.setCharacterEncoding("UTF-8");
         return resolver;
+    }
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemDefaultZone();
     }
 }
